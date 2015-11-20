@@ -7,15 +7,17 @@
 .option post probe nomod dcon=1 ingold=2 numdgt=10 runlvl=4
 * Set temperature of the simulation, for simulation of fast or slow corner, set it as 0 or 85 respectively
 .TEMP 25
-.include p35_cmos_models_tt.inc
-.include opamp_subcircuit.sp
+*.include p35_cmos_models_tt.inc
+*.include opamp_subcircuit.sp
+.include ptm65.lib
+.include opamp_2s_fc_opt.sp
 
 
 *--------------------------------------------------------
 * Simulation Parameters
 *--------------------------------------------------------
-.param vdd_v=1					       * Supply Voltage Value, for fast condition, change it to 2.2, and for slow condition, change it to 1.8
-.param vss_v=-1
+.param vdd_v=1.2					       * Supply Voltage Value, for fast condition, change it to 2.2, and for slow condition, change it to 1.8
+.param vss_v=0
 .param vin_cm='0.5*vdd_v'		   * Common-mode Voltage
 .param vin_low='0.375*vdd_v'   * Input step voltages
 .param vin_high='0.625*vdd_v'
