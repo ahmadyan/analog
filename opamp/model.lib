@@ -1,0 +1,162 @@
+* Standard MOS and diode library
+* Author: etienne.sicard@insa-toulouse.fr
+* Software : DSCH
+* last revision : Sept 21, 2009
+* Compatible: WinSpice www.winspice.com
+*
+* Note: Dsch will use "MN" and "MP" default calls for Mos devices
+* "DIOD" for diodes and "CLAMP" for clamp diodes
+* Note: other MOS models are provided for several technologies
+*
+*---Diodes------------
+* Simple diode
+.MODEL DIOD D RS=5 BV=15 N=1.0
+*
+* Clamp diode
+.MODEL CLAMP D RS=2 BV=10 N=1.2
+*
+*---Capa model---------
+* Add a first order temperature influence through TC1
+*.MODEL CMODEL CAP(TC1=-0.001)
+*
+*---MOS----------------
+* Defaul Mos models : corresponds to 45nm 1V
+* Generated from Microwind 45nm
+* Ref: 45nm application note www.microwind.org
+*
+* Mos models in 45nm
+* n-MOS Model 3 :
+.MODEL MN NMOS LEVEL=3 VTO=0.18 UO=160.000 TOX= 3.5E-9
++LD =0.005U THETA=0.300 GAMMA=0.400
++PHI=0.150 KAPPA=0.350 VMAX=180.00K
++CGSO=100.0p CGDO=100.0p
++CGBO= 60.0p CJSW=240.0p
+*
+* p-MOS Model 3:
+.MODEL MP PMOS LEVEL=3 VTO=-0.15 UO=120.000 TOX= 3.5E-9
++LD =0.005U THETA=0.300 GAMMA=0.400
++PHI=0.150 KAPPA=0.350 VMAX=180.00K
++CGSO=100.0p CGDO=100.0p
++CGBO= 60.0p CJSW=240.0p
+*
+* Mos models in 0.35�m
+* Model 3 n-channel MOS
+.MODEL  MN035  NMOS
++ LEVEL=3            TPG=+1
++ GAMMA=0.2          THETA=0.5          KAPPA=0.1        ETA=0.002
++ DELTA=0.0          UO=620             VMAX=100E3       VTO=0.5
++ TOX=5e-9           XJ=0.1U            LD=0.00U         NSUB=1E+18
++ NSS=0.2            NFS=7E11           RD=1             RS=1
++ CJ=4.091E-4        MJ=0.307           PB=1.0
++ CJSW=3.078E-10     MJSW=1.0E-2
++ CGSO=3.93E-10      CGDO=3.93E-10
+* Model 3 p-channel MOS
+.MODEL  MP035  PMOS
++ LEVEL=3            TPG=-1
++ GAMMA=0.2          THETA=0.5          KAPPA=0.01         ETA=0.001
++ DELTA=0.0          UO=250             VMAX=100E3         VTO=-0.5
++ TOX=5E-9           XJ=0.1U            LD=0.0U            NSUB=1E+18
++ NSS=0.0            NFS=7E11           RD=1               RS=1
++ CJ=6.852E-4        MJ=0.429           PB=1.0
++ CJSW=5.217E-10     MJSW=0.351
++ CGSO=7.29E-10      CGDO=7.29E-10
+*
+* Model 3 n-channel MOS
+.MODEL  MN035X  NMOS
++ LEVEL=3            TPG=+1
++ GAMMA=0.2          THETA=0.5          KAPPA=0.1        ETA=0.002
++ DELTA=0.0          UO=620             VMAX=100E3       VTO=0.5
++ TOX=5e-9           XJ=0.1U            LD=0.00U         NSUB=1E+18
++ NSS=0.2            NFS=7E11           RD=1             RS=1
++ CJ=4.091E-4        MJ=0.307           PB=1.0
++ CJSW=3.078E-10     MJSW=1.0E-2
++ CGSO=3.93E-10      CGDO=3.93E-10
+* Model 3 p-channel MOS
+.MODEL  MP035X  PMOS
++ LEVEL=3            TPG=-1
++ GAMMA=0.2          THETA=0.5          KAPPA=0.01         ETA=0.001
++ DELTA=0.0          UO=250             VMAX=100E3         VTO=-0.5
++ TOX=5E-9           XJ=0.1U            LD=0.0U            NSUB=1E+18
++ NSS=0.0            NFS=7E11           RD=1               RS=1
++ CJ=6.852E-4        MJ=0.429           PB=1.0
++ CJSW=5.217E-10     MJSW=0.351
++ CGSO=7.29E-10      CGDO=7.29E-10
+*
+* Mos models in 0.25�m
+* Model 3 n-channel MOS
+.MODEL  MN025  NMOS
++ LEVEL=3            TPG=+1
++ GAMMA=0.2          THETA=0.5          KAPPA=0.1        ETA=0.002
++ DELTA=0.0          UO=620             VMAX=100E3       VTO=0.4
++ TOX=3e-9           XJ=0.1U            LD=0.00U         NSUB=1E+18
++ NSS=0.2            NFS=7E11           RD=1             RS=1
++ CJ=4.091E-4        MJ=0.307           PB=1.0
++ CJSW=3.078E-10     MJSW=1.0E-2
++ CGSO=3.93E-10      CGDO=3.93E-10
+* Model 3 p-channel MOS
+.MODEL  MP025  PMOS
++ LEVEL=3            TPG=-1
++ GAMMA=0.2          THETA=0.5          KAPPA=0.01         ETA=0.001
++ DELTA=0.0          UO=250             VMAX=300E3         VTO=-0.4
++ TOX=3E-9           XJ=0.1U            LD=0.0U             NSUB=1E+18
++ NSS=0.0            NFS=7E11           RD=1             RS=1
++ CJ=6.852E-4        MJ=0.429           PB=1.0
++ CJSW=5.217E-10     MJSW=0.351
++ CGSO=7.29E-10      CGDO=7.29E-10
+*
+* Mos models in 0.12�m
+* Model 3 n-channel MOS
+.MODEL  MN012  NMOS
++ LEVEL=3            TPG=+1
++ GAMMA=0.2          THETA=0.5          KAPPA=0.1        ETA=0.002
++ DELTA=0.0          UO=620             VMAX=100E3       VTO=0.35
++ TOX=2e-9           XJ=0.1U            LD=0.00U         NSUB=1E+18
++ NSS=0.2            NFS=7E11           RD=1             RS=1
++ CJ=4.091E-4        MJ=0.307           PB=1.0
++ CJSW=3.078E-10     MJSW=1.0E-2
++ CGSO=3.93E-10      CGDO=3.93E-10
+* Model 3 p-channel MOS
+.MODEL  MP012  PMOS
++ LEVEL=3            TPG=-1
++ GAMMA=0.2          THETA=0.5          KAPPA=0.01         ETA=0.001
++ DELTA=0.0          UO=250             VMAX=300E3         VTO=-0.35
++ TOX=2E-9          XJ=0.1U             LD=0.0U            NSUB=1E+18
++ NSS=0.0            NFS=7E11           RD=1             RS=1
++ CJ=6.852E-4        MJ=0.429           PB=1.0
++ CJSW=5.217E-10     MJSW=0.351
++ CGSO=7.29E-10      CGDO=7.29E-10
+*
+*
+* Mos models in 90nm
+* n-MOS Model 3 :
+.MODEL MN90N NMOS LEVEL=3 VTO=0.34 UO=350.000 TOX= 1.2E-9
++LD =0.020U THETA=0.890 GAMMA=0.500
++PHI=0.150 KAPPA=0.130 VMAX=125.00K
++CGSO=100.0p CGDO=100.0p
++CGBO= 60.0p CJSW=240.0p
+*
+* p-MOS Model 3:
+* low leakage
+.MODEL MP90N PMOS LEVEL=3 VTO=-0.32 UO=120.000 TOX= 1.2E-9
++LD =0.020U THETA=1.800 GAMMA=0.400
++PHI=0.150 KAPPA=0.310 VMAX=90.00K
++CGSO=100.0p CGDO=100.0p
++CGBO= 60.0p CJSW=240.0p
+*
+*
+* Mos models in 65nm
+* n-MOS Model 3 :
+* low leakage
+.MODEL MN65N NMOS LEVEL=3 VTO=0.34 UO=300.000 TOX= 1.1E-9
++LD =0.010U THETA=0.890 GAMMA=0.500
++PHI=0.150 KAPPA=0.130 VMAX=125.00K
++CGSO=100.0p CGDO=100.0p
++CGBO= 60.0p CJSW=240.0p
+*
+* p-MOS Model 3:
+* low leakage
+.MODEL MP65N PMOS LEVEL=3 VTO=-0.32 UO=110.000 TOX= 1.1E-9
++LD =0.020U THETA=1.800 GAMMA=0.400
++PHI=0.150 KAPPA=0.310 VMAX=90.00K
++CGSO=100.0p CGDO=100.0p
++CGBO= 60.0p CJSW=240.0p

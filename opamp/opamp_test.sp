@@ -12,11 +12,10 @@
 .include ptm65.lib
 .include opamp_2s_fc_opt.sp
 
-
 *--------------------------------------------------------
 * Simulation Parameters
 *--------------------------------------------------------
-.param vdd_v=1.2					       * Supply Voltage Value, for fast condition, change it to 2.2, and for slow condition, change it to 1.8
+.param vdd_v=2					       * Supply Voltage Value, for fast condition, change it to 2.2, and for slow condition, change it to 1.8
 .param vss_v=0
 .param vin_cm='0.5*vdd_v'		   * Common-mode Voltage
 .param vin_low='0.375*vdd_v'   * Input step voltages
@@ -40,12 +39,12 @@ vgnd gnd 0 0
 * Subcircuit instantiation for frequency analysis
 *--------------------------------------------------------
 xac vdd_ac  vss_ac vin_ac+  vin_ac-  vo_ac  opamp
-e+  vin_ac+  101 100 0 0.5
-e-  vin_ac-  102 100 0 -0.5
+e+  vin_ac+  101 100 0 vdd_v
+e-  vin_ac-  102 100 0 vss_v
 voff_ac  101 102 dc=0
 vcm_ac 102 vss_ac dc=1
 vs_ac  100 0 dc=0  ac=1
-cl_ac  vo_ac  0 5p
+*cl_ac  vo_ac  0 5p
 
 *--------------------------------------------------------
 * Subcircuit instantiation for transient analysis
