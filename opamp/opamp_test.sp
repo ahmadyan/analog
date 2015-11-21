@@ -10,24 +10,25 @@
 *.include p35_cmos_models_tt.inc
 *.include opamp_subcircuit.sp
 .include ptm65.lib
-.include opamp_2s_fc_opt.sp
+.include opamp_netlist.sp
 
 *--------------------------------------------------------
 * Simulation Parameters
 *--------------------------------------------------------
 .param vdd_v=1.2					       * Supply Voltage Value, for fast condition, change it to 2.2, and for slow condition, change it to 1.8
 .param vss_v=0
-.param vin_cm='0.5*vdd_v'		   * Common-mode Voltage
+.param vin_cm='0.25*vdd_v'		   * Common-mode Voltage
 .param vin_low='0.375*vdd_v'   * Input step voltages
 .param vin_high='0.625*vdd_v'
 .param period=1e-6			     * Square wave period
 .param risetime=1e-9			     * Transition time (rising edge)
 .param falltime=1e-9			     * Transition time (falling edge)
-
+.param vin_cm='0.5*vdd_v'
 *--------------------------------------------------------
 * Supply Voltages
 *--------------------------------------------------------
 vdd_ac vdd_ac 0 vdd_v
+
 vss_ac vss_ac 0 vss_v
 vdd_tr1 vdd_tr1 0 vdd_v
 vdd_tr2 vdd_tr2 0 vdd_v
@@ -42,9 +43,8 @@ xac vdd_ac  vss_ac vin_ac+  vin_ac-  vo_ac  opamp
 e+  vin_ac+  101 100 0 vdd_v
 e-  vin_ac-  102 100 0 vss_v
 voff_ac  101 102 dc=0
-vcm_ac 102 vss_ac dc=0.3
-vs_ac  100 0 dc=0  ac=0.5
-*cl_ac  vo_ac  0 5p
+vcm_ac 102 vss_ac dc=vin_cm
+vs_ac  100 0 dc=0  ac=1
 
 *--------------------------------------------------------
 * Subcircuit instantiation for transient analysis
@@ -58,18 +58,6 @@ cl_tr2 vo_tr2 0 5p
 *vpulse_tr2 vi_tr2 0 pwl(0 0 1n 0.5 500n 0.5 500.1n 0)
 vpulse1 vi_tr1 0 pulse (vin_low vin_high 0 risetime falltime 'period/2-risetime' period)
 vpulse2 vi_tr2 0 pulse (vin_high vin_low 0 risetime falltime 'period/2-risetime' period)
-
-*xac vdd_ac  vss_ac vin_ac+  vin_ac-  vo_ac  opamp
-*.subckt opamp vdd vss vin+ vin- vo
-*xtr1 vdd_tr1 vss_tr1 vin_tr+1 vo_tr1 vo_tr1  opamp
-*xtr2 vdd_tr2 vss_tr2 vin_tr+2 vo_tr2 vo_tr2  opamp
-**xtr1 vin_tr+1 vo_tr1 vo_tr1 vdd_tr1 vss_tr1 opamp
-**xtr2 vin_tr+2 vo_tr2 vo_tr2 vdd_tr2 vss_tr2 opamp
-*vpulse1 vin_tr+1 vss_tr1 pulse (vin_low vin_high 0 risetime falltime 'period/2-risetime' period)
-*vpulse2 vin_tr+2 vss_tr2 pulse (vin_high vin_low 0 risetime falltime 'period/2-risetime' period)
-*.probe  v(vo_tr1) v(vo_tr2) v(vin_tr+1) v(vin_tr+2)
-*.trans 'period/10000' 'period/2-risetime'
-
 
 
 *--------------------------------------------------------
@@ -93,7 +81,7 @@ vpulse2 vi_tr2 0 pulse (vin_high vin_low 0 risetime falltime 'period/2-risetime'
 .measure ac phase_shift find vp(vo_ac) when v(vo_ac) = 1                        * Phase shift
 .measure ac phase_margin find  par('180+vp(vo_ac)') at=ugf                      * alternative measure for phase margin
 .measure ac phase_margin_alt param='180 + phase_shift'                          * alternative measure for phase margin
-.meas ac GM find par('abs(vdb(vo_ac))') when vp(vo_ac)=-179                     * Gain Margin
+.measure ac GM FIND PAR('abs(vdb(vo_ac))') when vp(vo_ac)=0                     * Gain Margin
 .measure ac first_pole when vp(vo_ac)=-4
 .measure ac second_pole when vp(vo_ac)=-135
 

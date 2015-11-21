@@ -6,7 +6,7 @@
 *.param lmin = 300n
 .param w1=w1_size
 .param w2=w1
-.param w3='68*lambda'
+.param w3=w3_size
 .param w4=w3
 .param w5='438*lambda'
 .param w6='200*lambda'
@@ -14,7 +14,7 @@
 .param w8='17*lambda'
 .param ibias=6.7u
 .param clopt=24f
-.param rlopt=rl_size
+.param rlopt=1k
 
 .subckt opamp  vdd vss inp inn out
 m1 (a5 inn a2 vdd) pmos  w=w1   l=lmin *w=4.5u l=0.51u m=4
